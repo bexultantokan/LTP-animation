@@ -1,4 +1,10 @@
 /* CSS styles go here */
+
+html
+{
+    background-color: rgb(234, 234, 234);
+}
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -68,3 +74,11 @@ button {
 #blocksContainer div{
     transition: all 1s linear;
 }
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid blue; /* Adjust color and size as needed */
+  }
