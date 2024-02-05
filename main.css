@@ -1,0 +1,70 @@
+/* CSS styles go here */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #752f87;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    padding: 1rem;
+}
+
+button {
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+.block {
+    width: 20px; /* Width of each block */
+    height: 40px; /* Height of each block */
+    margin: 5px;
+    display: inline-block; /* Display blocks in a line */
+    /* position: absolute; */
+    /* Add more styling if needed */
+}
+
+.container {
+    display: grid; 
+    visibility: hidden;
+    grid-template-columns: 1fr 1fr;
+    /* justify-content: center; Centers the divs horizontally */
+}
+
+.vertical-line {
+    width: 7px; /* Width of the line */
+    height: 60vh; /* Height of the line */
+    background-color: red; /* Color of the line */
+    margin: 20px;
+    display: inline-block;
+}
+.spacer {
+    width: 300px; /* Distance between the lines */
+    display: inline-block;
+    /* display: inline-block; Aligns the divs in a line */
+}
+
+#container2 {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.line {
+    position: absolute;
+    width: 0px; /* initially no width */
+    height: 2px;
+    transform-origin: left;
+}
+  
+#blocksContainer div{
+    transition: all 1s linear;
+}
