@@ -78,8 +78,8 @@ function movingLastBlock(button) {
         if(color == 'red')
         {
             const backLineColor = 'rgb(255, 217, 0)'
-            moveLine('red', leftLineX, leftLineY, rightLineX, rightLineY, 0.5, () => {
-                moveLine(backLineColor, rightLineX, rightLineY, leftLineX, leftLineY + 40, 0.5, () => {
+            moveLine('red', leftLineX, leftLineY, rightLineX, rightLineY + 10, 0.5, () => {
+                moveLine(backLineColor, rightLineX, rightLineY + 10, leftLineX, leftLineY + 40, 0.5, () => {
                     enableButton();
                     leftLineY += offset;
                     rightLineY += offset;
@@ -88,7 +88,7 @@ function movingLastBlock(button) {
         }
         else
         {
-            moveLine('green',  leftLineX, rightLineY,rightLineX, rightLineY, 0.5, () => {
+            moveLine('green',  leftLineX, rightLineY,rightLineX, rightLineY + 10, 0.5, () => {
                 enableButton();
                 leftLineY += offset;
                 rightLineY += offset;
