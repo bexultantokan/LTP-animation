@@ -82,3 +82,19 @@ button {
     border-right: 5px solid transparent;
     border-bottom: 10px solid blue; /* Adjust color and size as needed */
   }
+.satellite {
+    width: 80px;
+    height: auto;
+    /* border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%; */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+.rightSide {
+    display: flex;
+}

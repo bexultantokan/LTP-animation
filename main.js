@@ -1,7 +1,11 @@
-leftLineX = document.getElementById('leftLine').getBoundingClientRect().left;
+leftLineX = document.getElementById('leftLine').getBoundingClientRect().right;
 leftLineY = document.getElementById('leftLine').getBoundingClientRect().top;
 rightLineX = document.getElementById('rightLine').getBoundingClientRect().left;
 rightLineY = document.getElementById('rightLine').getBoundingClientRect().top;
+
+leftLine = document.getElementById('leftLine');
+rightLine = document.getElementById('rightLine');
+
 
 
 startButton = null;
@@ -20,8 +24,15 @@ function handleFormSubmit(event) {
     showMessage("There are " + redBlocks + " red blocks and " + greenBlocks + " green blocks.");
 
     var numOfBlocks = parseInt(redBlocks) + parseInt(greenBlocks);
+    leftLine.style.height = Math.max(numOfBlocks * offset, 60) + 'px';
+    rightLine.style.height = Math.max(numOfBlocks * offset, 60) + 'px';
+
+    document.querySelectorAll('.line').forEach(e => e.remove());
+    leftLineY = leftLine.getBoundingClientRect().top;
+    rightLineY = rightLine.getBoundingClientRect().top;
     // You can add more JavaScript code here to use the number as needed
     createBlocks(redBlocks, greenBlocks);
+    enableButton();
     document.getElementById('container1').style.visibility = "visible";
 
 }
@@ -34,11 +45,11 @@ function createBlocks(redNum, greenNum) {
     blocksContainer.style.position = 'relative'; // Set the container to relative position
     blocksContainer.innerHTML = ''; // Clear the container first
     
-    for (var i = 0; i < greenNum; i++) 
-       createSingleBlock('green');
-    
     for (var i = 0; i < redNum; i++) 
         createSingleBlock('red');
+
+    for (var i = 0; i < greenNum; i++) 
+        createSingleBlock('green');
 }
 
 function createSingleBlock(color)
@@ -63,24 +74,29 @@ function movingLastBlock(button) {
         
         // movingLine(color, color == 'red');
 
-        leftLineY += offset;
-        rightLineY += offset;
 
         if(color == 'red')
         {
             const backLineColor = 'rgb(255, 217, 0)'
-            moveLine('red', leftLineX, leftLineY, rightLineX, rightLineY, 1, () => {
-                moveLine(backLineColor, rightLineX, leftLineY, leftLineX, leftLineY + 40, 1, () => {
+            moveLine('red', leftLineX, leftLineY, rightLineX, rightLineY, 0.5, () => {
+                moveLine(backLineColor, rightLineX, rightLineY, leftLineX, leftLineY + 40, 0.5, () => {
                     enableButton();
+                    leftLineY += offset;
+                    rightLineY += offset;
                 });
             });
         }
         else
         {
-            moveLine('green',  leftLineX, rightLineY,rightLineX, rightLineY, 1, () => {
+            moveLine('green',  leftLineX, rightLineY,rightLineX, rightLineY, 0.5, () => {
                 enableButton();
+                leftLineY += offset;
+                rightLineY += offset;
             });
         }
+        document.querySelector('.line').addEventListener('click', function() {
+            alert('Object clicked during transition!');
+        });
     });
 }
 
@@ -92,10 +108,10 @@ function moveLine(color, fromX, fromY, toX, toY, duration, callback) {
     rightDiv.appendChild(line);
 
     var arrow = document.createElement('div');
-    arrow.className = 'triangle';
-    line.appendChild(arrow);
+    // arrow.className = 'triangle';
+    // line.appendChild(arrow);
 
-
+    
     line.style.left = fromX + 'px';
     line.style.top = fromY + 'px';
     line.style.backgroundColor = color;
@@ -111,10 +127,12 @@ function enableButton()
     if(startButton == null) return;
     startButton.disabled = false;
 
-}
+}   
 function extendLineTo(x, y, line, arrow, duration) {
-    const lineLeft = line.getBoundingClientRect().left;
-    const lineTop = line.getBoundingClientRect().top;
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
+    const lineLeft = line.getBoundingClientRect().left + scrollX;
+    const lineTop = line.getBoundingClientRect().top + scrollY;
 
     const deltaX = x - lineLeft;
     const deltaY = y - lineTop;
@@ -131,4 +149,3 @@ function extendLineTo(x, y, line, arrow, duration) {
     arrow.style.transition = `transform ${duration}s linear`;
     console.log(line)
 }
-
