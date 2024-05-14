@@ -67,7 +67,7 @@ button {
 .line {
     position: absolute;
     width: 0px; /* initially no width */
-    height: 2px;
+    height: 10px;
     transform-origin: left;
 }
   

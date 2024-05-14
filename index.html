@@ -13,7 +13,7 @@
     </header>
     
 
-    <main>
+    <!-- <main>
       <form onsubmit="handleFormSubmit(event)">
           <label for="redBlocks">Enter a number of red blocks to transmit (1-10):</label>
           <input type="number" id="redBlocks" name="number">
@@ -41,8 +41,31 @@
           </div>
         </div>
       </div>
+    </main> -->
 
-    </main>
+  <main>
+    <form onsubmit="handleFormSubmit2(event)">
+      <label for="2blocks">Enter a number of blocks to transmit (1-10):</label>
+      <input type="number" id="2blocks" name="number">
+      <input type="submit" value="Submit">
+    </form>
+    <p id="message"></p>
+    <div class="container" id="container1"> 
+      <div id="rightSide" class = "rightSide">
+      <div class="column">
+        <img src="satellite.png" class="satellite">
+        <div class="vertical-line" id="leftLine"></div>
+      </div>
+      <div class="spacer"></div>
+      <div class="column">
+        <img src="satellite.png" class="satellite">
+        <div class="vertical-line" id="rightLine"></div>
+      </div>
+    </div>
+    </div> 
+    
+
+  </main>
     
     <script src="./jquery.js"></script>
     <script src="./main.js"></script>
