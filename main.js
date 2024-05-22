@@ -3,18 +3,20 @@ leftLineX = document.getElementById('leftLine').getBoundingClientRect().right;
 leftLineY = document.getElementById('leftLine').getBoundingClientRect().top;
 rightLineX = document.getElementById('rightLine').getBoundingClientRect().left;
 rightLineY = document.getElementById('rightLine').getBoundingClientRect().top;
-passed = new Set();
-toBePassed = new Set();
+var passed = new Array();
+// toBePassed = new Set();
 leftLine = document.getElementById('leftLine');
 rightLine = document.getElementById('rightLine');
 
 
-
+    
 startButton = null;
 offset = 20 // between the lines
 incline = 10 // Y offset for the right line
 blocks = 0
 var leftPackets = [], rightPackets = [];
+
+var numbersToDeliver = Array()
 
 function showMessage(message) {
     document.getElementById('message').textContent = message;
@@ -52,7 +54,7 @@ async function handleFormSubmit2(event) {
     document.querySelectorAll('.line').forEach(e => e.remove());
     leftLineY = leftLine.getBoundingClientRect().top;
     rightLineY = rightLine.getBoundingClientRect().top;
-
+    numbersToDeliver = Array.from({ length: blocks }, (_, i) => i + 1);
     packetsToBeDelivered = blocks;
     // for (var i = 0; i < blocks; i++) {
     //     toBePassed.add(i);
@@ -70,19 +72,22 @@ async function handleFormSubmit2(event) {
 
     do {
         console.log("Packets to be delivered: ", packetsToBeDelivered);
+        console.log(numbersToDeliver);
         total = packetsToBeDelivered
         for (var i = 0; i < total; i++) {
-            await moveLine('blue', leftLineX, leftLineY, rightLineX, rightLineY + incline, 1, () => {});
+            labelNum = numbersToDeliver.shift();
+            console.log("num: "+labelNum);
+            await moveLine('blue', leftLineX, leftLineY, rightLineX, rightLineY + incline, 1, labelNum, () => {});
             packetsToBeDelivered -= 1;
         }
-        await moveLine('yellow', rightLineX, rightLineY, leftLineX , leftLineY + 15, 1, () => {});
+        await moveLine('yellow', rightLineX, rightLineY, leftLineX , leftLineY + 15, 1, -1, () => {});
     } 
     while (packetsToBeDelivered != 0);
-
+    await moveLine('red', leftLineX, leftLineY, rightLineX, rightLineY + 15, 1, -1, () => {});
 }
 
 
-const blocksContainer = document.getElementById('blocksContainer');
+// const blocksContainer = document.getElementById('blocksContainer');
 
 
 
@@ -189,16 +194,28 @@ const blocksContainer = document.getElementById('blocksContainer');
 
 // }
 
-function moveLine(color, fromX, fromY, toX, toY, duration, callback) {
+function moveLine(color, fromX, fromY, toX, toY, duration, labelNum, callback) {
     leftLineY += offset;
     rightLineY += offset;
+
+    if (labelNum != -1) {
+        const container = document.getElementById('rightSide');
+        const newElement = document.createElement('div');
+        newElement.classList.add('text-element');
+        newElement.textContent = labelNum;
+        newElement.style.position = 'absolute';
+        newElement.style.left = String(fromX - 20) + 'px';
+        newElement.style.top = String(fromY - 10) + 'px';
+
+        container.appendChild(newElement);
+    }
+
     return new Promise(resolve => {
 
         const rightDiv = document.getElementById('rightSide');
         var line = document.createElement('div');
         line.className = 'line';
         rightDiv.appendChild(line);
-
         line.style.left = fromX + 'px';
         line.style.top = fromY + 'px';
         line.style.backgroundColor = color;
@@ -206,12 +223,14 @@ function moveLine(color, fromX, fromY, toX, toY, duration, callback) {
 
         // Function to stop line movement
         line.addEventListener('click', function() {
-            if (this.style.width == '373px')
+            if (passed.includes(labelNum)){
                 return;
+            }  
             this.style.width = `${this.offsetWidth}px`; // Set the width to its current value
             this.style.transition = 'none'; // Remove any transitions
             packetsToBeDelivered += 1;
             
+            numbersToDeliver.push(labelNum)
 
             const src = 'mark.png';
             const x = this.style.left;
@@ -232,6 +251,7 @@ function moveLine(color, fromX, fromY, toX, toY, duration, callback) {
 
         line.addEventListener('transitionend', () => {
             callback();
+            passed.push(labelNum);
             resolve(); // Resolve the promise when the transition ends
         });
     });

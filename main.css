@@ -41,8 +41,9 @@ button {
 .container {
     display: grid; 
     visibility: hidden;
-    grid-template-columns: 1fr 1fr;
-    /* justify-content: center; Centers the divs horizontally */
+    /* grid-template-columns: 1fr 1fr; */
+    justify-content: center;
+    align-items: center;
 }
 
 .vertical-line {
