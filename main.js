@@ -8,7 +8,7 @@ leftLine = document.getElementById('leftLine');
 rightLine = document.getElementById('rightLine');
 
 
-timeOutInterval = 4000;
+timeOutInterval = 3000;
 idCounter = 0
 duration = 2
 offset = 20 // between the lines
